@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THARAN | Tharan Couture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Marcellus&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --maroon-deep: #6B1220;
+    --maroon-ink: #2A0509;
+    --maroon-glow: #93223A;
+    --gold: #D4AF37;
+    --gold-soft: #F0D28A;
+    --gold-bright: #F8DE7E;
+    --gold-deep: #A67C1F;
+    --cream: #FBF4E8;
+    --blush: #E9CBB4;
+    --text-dark: #2A0509;
+    --text-soft: #6b4a45;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{ background:var(--cream); color:var(--text-dark); font-family:'Jost', sans-serif; overflow-x:hidden; }
+  h1,h2,h3,.display{ font-family:'Marcellus', serif; letter-spacing:0.02em; }
+  a{ text-decoration:none; color:inherit; }
+  ::selection{ background:var(--gold-soft); color:var(--maroon-ink); }
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--maroon-deep); outline-offset:3px; }
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; } }
+
+  .photo-frame{ position:relative; overflow:hidden; }
+  .photo-frame img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    filter:saturate(1.15) contrast(1.05) brightness(1.03);
+    transition:transform .6s ease;
+  }
+  .photo-frame::after{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(160deg, rgba(107,18,32,0.5), rgba(212,175,55,0.22) 55%, rgba(42,5,9,0.55));
+    mix-blend-mode:multiply;
+    pointer-events:none;
+  }
+  .photo-frame::before{
+    content:'';
+    position:absolute; inset:0;
+    background-image:repeating-linear-gradient(135deg, rgba(255,255,255,0.06) 0 2px, transparent 2px 10px);
+    pointer-events:none;
+  }
+  .card:hover .photo-frame img{ transform:scale(1.07); }
+
+  .fabric-texture{
+    position:absolute; inset:0;
+    background-image:repeating-linear-gradient(45deg, rgba(212,175,55,0.07) 0 2px, transparent 2px 16px),
+                      repeating-linear-gradient(-45deg, rgba(107,18,32,0.05) 0 2px, transparent 2px 16px);
+    pointer-events:none;
+  }
+
+  .paisley-divider{ display:flex; align-items:center; justify-content:center; gap:18px; padding:14px 0; }
+  .paisley-divider .line{ height:1px; width:min(120px, 20vw); background:linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .paisley-divider svg{ width:26px; height:26px; flex-shrink:0; }
+
+  header{ position:sticky; top:0; z-index:100; background:rgba(251,244,232,0.92); backdrop-filter:blur(6px); border-bottom:1px solid rgba(212,175,55,0.4); }
+  .nav-wrap{ max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:16px 32px; }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand-mark svg{ width:34px; height:34px; }
+  .brand-name{ font-family:'Marcellus', serif; font-size:1.5rem; color:var(--maroon-deep); letter-spacing:0.1em; }
+  nav ul{ display:flex; gap:34px; list-style:none; }
+  nav a{ font-size:0.85rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dark); position:relative; padding-bottom:4px; }
+  nav a::after{ content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--gold-deep); transition:width .3s ease; }
+  nav a:hover::after{ width:100%; }
+  .nav-toggle{ display:none; background:none; border:none; cursor:pointer; }
+  .nav-toggle svg{ width:26px; height:26px; color:var(--maroon-deep); }
+
+  .hero{
+    position:relative; min-height:92vh; display:flex; align-items:center; padding:0 32px;
+    background:
+      radial-gradient(ellipse at 80% 15%, rgba(212,175,55,0.35), transparent 55%),
+      radial-gradient(ellipse at 5% 90%, rgba(107,18,32,0.14), transparent 50%),
+      linear-gradient(165deg, var(--cream) 0%, #f7ead4 55%, #f1dcb0 100%);
+    overflow:hidden;
+  }
+  .hero-drape{ position:absolute; inset:0; pointer-events:none; }
+  .hero-inner{ max-width:1200px; margin:0 auto; width:100%; display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center; position:relative; z-index:2; }
+  .eyebrow{ display:inline-flex; align-items:center; gap:10px; font-size:0.78rem; letter-spacing:0.28em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:22px; }
+  .eyebrow::before{ content:''; width:34px; height:1px; background:var(--gold-deep); }
+  .hero h1{ font-size:clamp(2.6rem, 5.2vw, 4.6rem); line-height:1.05; color:var(--maroon-deep); }
+  .hero h1 .accent{
+    display:block; font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:500;
+    background:linear-gradient(100deg, var(--gold-deep), var(--gold-bright), var(--gold-deep));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    font-size:0.42em; margin-top:14px; letter-spacing:0.02em;
+  }
+  .hero p.lede{ margin-top:26px; max-width:46ch; font-size:1.08rem; line-height:1.75; color:var(--text-soft); }
+  .hero-cta{ margin-top:38px; display:flex; gap:18px; flex-wrap:wrap; }
+  .btn{ display:inline-flex; align-items:center; gap:10px; padding:15px 30px; font-size:0.85rem; letter-spacing:0.14em; text-transform:uppercase; border-radius:2px; cursor:pointer; border:1px solid var(--gold-deep); transition:transform .25s ease, background .25s ease, color .25s ease; }
+  .btn-solid{ background:linear-gradient(135deg, var(--maroon-glow), var(--maroon-deep) 60%, var(--maroon-ink)); color:var(--gold-soft); box-shadow:0 8px 22px -10px rgba(107,18,32,0.65); border-color:var(--gold); }
+  .btn-solid:hover{ transform:translateY(-2px); background:linear-gradient(135deg, var(--maroon-deep), var(--maroon-ink)); }
+  .btn-ghost{ background:transparent; color:var(--maroon-deep); border-color:var(--gold-deep); }
+  .btn-ghost:hover{ transform:translateY(-2px); background:rgba(212,175,55,0.12); }
+
+  .hero-visual{ position:relative; display:flex; align-items:center; justify-content:center; }
+  .hero-photo-frame{ position:relative; width:100%; max-width:400px; aspect-ratio:3/4; border:2px solid var(--gold); padding:14px; box-shadow:0 20px 50px -20px rgba(107,18,32,0.5); }
+  .hero-photo-frame img{ border-radius:1px; }
+  .hero-corner{ position:absolute; bottom:-16px; right:-16px; width:36px; height:36px; z-index:5; filter:drop-shadow(0 4px 8px rgba(42,5,9,0.3)); }
+
+  section{ padding:110px 32px; }
+  .section-inner{ max-width:1200px; margin:0 auto; }
+  .section-head{ text-align:center; max-width:640px; margin:0 auto 60px; }
+  .section-head .eyebrow{ justify-content:center; }
+  .section-head .eyebrow::before{ display:none; }
+  .section-head h2{ font-size:clamp(2rem, 3.4vw, 2.8rem); color:var(--maroon-deep); margin-top:8px; }
+  .section-head p{ margin-top:18px; color:var(--text-soft); line-height:1.75; }
+
+  .about{ background:var(--cream); }
+  .about-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:70px; align-items:center; }
+  .about-frame{ position:relative; aspect-ratio:4/5; border:2px solid var(--gold); padding:14px; box-shadow:inset 0 0 0 8px var(--cream), inset 0 0 0 9px rgba(212,175,55,0.6); }
+  .about-text .eyebrow::before{ display:inline-block; }
+  .about-text h2{ font-size:clamp(1.9rem,3vw,2.5rem); color:var(--maroon-deep); margin-bottom:20px; }
+  .about-text p{ color:var(--text-soft); line-height:1.85; margin-bottom:16px; font-size:1.02rem; }
+  .stats-row{ display:flex; gap:46px; margin-top:34px; flex-wrap:wrap; }
+  .stat b{ display:block; font-family:'Marcellus',serif; font-size:1.9rem; color:var(--gold-deep); }
+  .stat span{ font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-soft); }
+
+  .collections{ background:linear-gradient(180deg, #f7ead4, var(--cream)); }
+  .grid-collections{ display:grid; grid-template-columns:repeat(3, 1fr); gap:30px; }
+  .card{ background:var(--cream); border:1px solid rgba(212,175,55,0.45); overflow:hidden; transition:transform .35s ease, box-shadow .35s ease; position:relative; }
+  .card:hover{ transform:translateY(-8px); box-shadow:0 22px 44px -18px rgba(107,18,32,0.4), 0 0 0 1px var(--gold); }
+  .card-visual{ aspect-ratio:3/4; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+  .card-body{ padding:22px 24px 26px; text-align:center; }
+  .card-body .tag{ font-size:0.7rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:8px; display:block; font-weight:600; }
+  .card-body h3{ font-size:1.35rem; color:var(--maroon-deep); margin-bottom:8px; }
+  .card-body p{ font-size:0.92rem; color:var(--text-soft); line-height:1.6; }
+
+  .reviews{ background:linear-gradient(155deg, var(--maroon-ink) 0%, var(--maroon-deep) 45%, var(--maroon-glow) 100%); color:var(--cream); position:relative; }
+  .reviews::before{
+    content:'';
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(212,175,55,0.25), transparent 60%),
+      radial-gradient(ellipse at 85% 90%, rgba(248,222,126,0.16), transparent 55%),
+      repeating-linear-gradient(45deg, rgba(212,175,55,0.04) 0 2px, transparent 2px 18px);
+    pointer-events:none;
+  }
+  .reviews .section-head p{ color:rgba(251,244,232,0.75); }
+  .reviews .section-head h2{ color:var(--gold-bright); }
+  .reviews-track{ display:grid; grid-template-columns:repeat(3, 1fr); gap:30px; }
+  .review-card{ background:rgba(251,244,232,0.06); border:1px solid rgba(212,175,55,0.4); padding:34px 28px; position:relative; }
+  .review-card .quote-mark{ font-family:'Cormorant Garamond', serif; font-size:3.2rem; color:var(--gold-bright); line-height:1; margin-bottom:6px; display:block; }
+  .review-card p.text{ font-size:1rem; line-height:1.75; color:rgba(251,244,232,0.92); margin-bottom:22px; }
+  .review-stars{ display:flex; gap:4px; margin-bottom:14px; }
+  .review-stars svg{ width:15px; height:15px; fill:var(--gold-bright); }
+  .review-name{ font-family:'Marcellus',serif; font-size:1.02rem; color:var(--gold-bright); }
+  .review-loc{ font-size:0.78rem; color:rgba(251,244,232,0.6); letter-spacing:0.06em; }
+
+  .contact{ background:var(--cream); }
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:stretch; }
+  .contact-info{ display:flex; flex-direction:column; justify-content:center; gap:26px; }
+  .info-row{ display:flex; gap:18px; align-items:flex-start; }
+  .info-row .icon{ width:44px; height:44px; flex-shrink:0; border:1px solid var(--gold); background:rgba(212,175,55,0.08); display:flex; align-items:center; justify-content:center; }
+  .info-row .icon svg{ width:20px; height:20px; color:var(--maroon-deep); }
+  .info-row h4{ font-family:'Marcellus',serif; font-size:1.05rem; color:var(--maroon-deep); margin-bottom:4px; }
+  .info-row p{ color:var(--text-soft); font-size:0.95rem; line-height:1.6; }
+
+  .contact-map{ border:2px solid var(--gold); padding:8px; }
+  .map-inner{ height:100%; min-height:340px; display:flex; align-items:center; justify-content:center; position:relative; }
+  .map-inner img{ width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
+  .map-inner svg{ width:56px; height:56px; color:var(--gold-bright); position:relative; z-index:3; filter:drop-shadow(0 3px 6px rgba(0,0,0,0.4)); }
+  .map-caption{ position:absolute; bottom:16px; left:16px; right:16px; text-align:center; font-size:0.8rem; color:var(--cream); letter-spacing:0.05em; z-index:3; background:rgba(42,5,9,0.6); padding:8px 10px; backdrop-filter:blur(2px); }
+
+  form.enquiry{ margin-top:36px; display:grid; gap:16px; }
+  form.enquiry input, form.enquiry textarea{ width:100%; background:transparent; border:none; border-bottom:1px solid rgba(107,18,32,0.4); padding:10px 2px; font-family:'Jost', sans-serif; font-size:0.95rem; color:var(--text-dark); }
+  form.enquiry input:focus, form.enquiry textarea:focus{ outline:none; border-bottom-color:var(--gold-deep); }
+  form.enquiry ::placeholder{ color:var(--text-soft); opacity:0.7; }
+  form.enquiry button{ justify-self:start; margin-top:6px; background:linear-gradient(135deg, var(--maroon-glow), var(--maroon-deep)); color:var(--gold-soft); border:1px solid var(--gold); padding:14px 30px; font-size:0.82rem; letter-spacing:0.14em; text-transform:uppercase; cursor:pointer; transition:background .25s ease, transform .25s ease; }
+  form.enquiry button:hover{ background:linear-gradient(135deg, var(--maroon-deep), var(--maroon-ink)); transform:translateY(-2px); }
+
+  footer{ background:var(--maroon-ink); color:rgba(251,244,232,0.75); padding:50px 32px 30px; text-align:center; }
+  footer .brand-name{ color:var(--gold-bright); font-size:1.3rem; margin-bottom:10px; display:block; letter-spacing:0.14em; }
+  footer .foot-links{ display:flex; gap:26px; justify-content:center; margin:20px 0; flex-wrap:wrap; }
+  footer .foot-links a{ font-size:0.82rem; letter-spacing:0.06em; }
+  footer .foot-links a:hover{ color:var(--gold-bright); }
+  footer small{ display:block; margin-top:18px; font-size:0.75rem; opacity:0.55; }
+
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  @media (max-width: 900px){
+    .hero-inner{ grid-template-columns:1fr; }
+    .hero-visual{ order:-1; }
+    .about-grid{ grid-template-columns:1fr; }
+    .grid-collections{ grid-template-columns:repeat(2,1fr); }
+    .reviews-track{ grid-template-columns:1fr; }
+    .contact-grid{ grid-template-columns:1fr; }
+    nav ul{ display:none; }
+    .nav-toggle{ display:block; }
+  }
+  @media (max-width: 560px){
+    .grid-collections{ grid-template-columns:1fr; }
+    section{ padding:80px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <div class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4C13 10 9 15 9 21c0 6.6 4.9 12 11 12s11-5.4 11-12c0-6-4-11-11-17z" stroke="#6B1220" stroke-width="1.4"/>
+          <path d="M20 10c-3.5 4-6 7.5-6 11.2C14 25.6 16.7 29 20 29s6-3.4 6-7.8c0-3.7-2.5-7.2-6-11.2z" fill="#D4AF37"/>
+        </svg>
+      </span>
+      <span class="brand-name">THARAN</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#collections">Collections</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-drape"><div class="fabric-texture"></div></div>
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow">Boutique · Est. Namakkal</div>
+      <h1>Draped in<br>Tradition
+        <span class="accent">Where Elegance Meets Tradition</span>
+      </h1>
+      <p class="lede">Handpicked silks, hand-embroidered blouses and custom bridal ensembles — crafted for the women who carry tradition with grace, into every room they enter.</p>
+      <div class="hero-cta">
+        <a href="#collections" class="btn btn-solid">View Collections</a>
+        <a href="#contact" class="btn btn-ghost">Book an Appointment</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-photo-frame photo-frame">
+        <img src="c:\Users\Thendral\Downloads\c.gif" alt="Tharan bridal silk saree drape" loading="lazy">
+        <svg class="hero-corner" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 4c-9 6-14 12-14 20 0 8 6 14 14 14s14-6 14-14c0-8-5-14-14-20z" fill="var(--gold)"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="paisley-divider" aria-hidden="true">
+  <span class="line"></span>
+  <svg viewBox="0 0 40 40" fill="none"><path d="M20 4c-9 6-14 12-14 20 0 8 6 14 14 14s14-6 14-14c0-8-5-14-14-20z" fill="#D4AF37"/></svg>
+  <span class="line"></span>
+</div>
+
+<section class="about" id="about">
+  <div class="section-inner about-grid">
+    <div class="about-frame photo-frame reveal">
+      <img src="file:///C:/Users/Thendral/Downloads/1000_F_2016554284_yXD8aPEad9WHzOv2K8iZyVoof9JNgomL.jpg" alt="Tharan boutique handloom weaving detail" loading="lazy">
+    </div>
+    <div class="about-text reveal">
+      <div class="eyebrow">Our Story</div>
+      <h2>This generations of<br>silk &amp; craftsmanship</h2>
+      <p>Tharan Boutique began in 2024 as a small weaving stall in Namakkal, run by a mother who believed every woman deserved to feel like royalty on her own terms. Today, that belief has grown into a full boutique house.</p>
+      <p>We source directly from handloom clusters in Kanchipuram and Coimbatore, and pair centuries-old weaving techniques with contemporary silhouettes — for weddings, festivals, and everyday elegance.</p>
+      <div class="stats-row">
+        <div class="stat"><b>45+</b><span>Years of Craft</span></div>
+        <div class="stat"><b>3,200+</b><span>Brides Dressed</span></div>
+        <div class="stat"><b>100%</b><span>Handloom Sourced</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="collections" id="collections">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="eyebrow">Collections</div>
+      <h2>Curated for every occasion</h2>
+      <p>From Kanjivaram silks to contemporary fusion wear — each piece is chosen or tailored with the same care.</p>
+    </div>
+    <div class="grid-collections">
+
+      <div class="card reveal">
+        <div class="card-visual photo-frame">
+          <img src="c:\Users\Thendral\Downloads\1000015546_4.jpg" alt="Kanjivaram silk saree" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="tag">Bridal</span>
+          <h3>Kanjivaram Silk</h3>
+          <p>Pure zari-woven silk sarees, handwoven in Kanchipuram for weddings and grand occasions.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-visual photo-frame">
+          <img src="c:\Users\Thendral\Downloads\aariwork-blouse-bridal-blouse-design181.jpg" alt="Designer embroidered blouse" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="tag">Festive</span>
+          <h3>Designer Blouses</h3>
+          <p>Hand-embroidered blouse pieces with mirror and zardozi work, tailored to fit.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-visual photo-frame">
+          <img src="c:\Users\Thendral\Downloads\58050_1.jpg" alt="Fusion kurta set" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="tag">Everyday</span>
+          <h3>Fusion Kurtas</h3>
+          <p>Comfortable cotton and linen kurta sets with a modern cut, for daily elegance.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-visual photo-frame">
+          <img src="c:\Users\Thendral\Downloads\25ef3edc811047bc01eabd0593aa3ac6.jpg" alt="Reception fusion gown" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="tag">Bridal</span>
+          <h3>Reception Gowns</h3>
+          <p>Custom-tailored fusion gowns blending Indian embroidery with modern draping.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-visual photo-frame">
+          <img src="c:\Users\Thendral\Downloads\29a8144098d2adb8999bf7d57df95a10.jpg" alt="Half-saree and lehenga" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="tag">Festive</span>
+          <h3>Half-Sarees &amp; Lehengas</h3>
+          <p>Vibrant pattu langa davani sets for Navaratri, Pongal, and temple functions.</p>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-visual photo-frame">
+          <img src="c:\Users\Thendral\Downloads\2732f320ae5e44ce3eebefc508637da3.jpg" alt="Temple jewellery and drapes" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="tag">Accessories</span>
+          <h3>Jewellery &amp; Drapes</h3>
+          <p>Temple jewellery, dupattas and accessories to complete every ensemble.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="paisley-divider" aria-hidden="true">
+  <span class="line" style="background:linear-gradient(90deg, transparent, #D4AF37, transparent);"></span>
+  <svg viewBox="0 0 40 40" fill="none"><path d="M20 4c-9 6-14 12-14 20 0 8 6 14 14 14s14-6 14-14c0-8-5-14-14-20z" fill="#6B1220"/></svg>
+  <span class="line" style="background:linear-gradient(90deg, transparent, #D4AF37, transparent);"></span>
+</div>
+
+<section class="reviews" id="reviews">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="eyebrow">Testimonials</div>
+      <h2>What our customers say</h2>
+      <p>Real words from the women who trusted us with their most special days.</p>
+    </div>
+    <div class="reviews-track">
+
+      <div class="review-card reveal">
+        <span class="quote-mark">&quot;</span>
+        <div class="review-stars">
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+        </div>
+        <p class="text">My wedding saree from Tharan Boutique was beyond anything I imagined. The zari work was so fine, and the team altered it three times until it fit perfectly.</p>
+        <div class="review-name">Priya Ramesh</div>
+        <div class="review-loc">Chennai</div>
+      </div>
+
+      <div class="review-card reveal">
+        <span class="quote-mark">&quot;</span>
+        <div class="review-stars">
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+        </div>
+        <p class="text">Ordered blouses for the whole family for Pongal. Every piece arrived on time, beautifully packed, and the embroidery quality was better than showrooms twice the price.</p>
+        <div class="review-name">Lakshmi Narayanan</div>
+        <div class="review-loc">Coimbatore</div>
+      </div>
+
+      <div class="review-card reveal">
+        <span class="quote-mark">&quot;</span>
+        <div class="review-stars">
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+        </div>
+        <p class="text">The consultation felt personal, not like a shop visit. They understood exactly what colours would suit my daughter's reception look.</p>
+        <div class="review-name">Kavitha Suresh</div>
+        <div class="review-loc">Madurai</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="eyebrow">Visit Us</div>
+      <h2>Book a private appointment</h2>
+      <p>Walk in, or reserve a styling session with our consultants for weddings and bulk festive orders.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <div class="info-row">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+          <div>
+            <h4>Boutique Address</h4>
+            <p>ValdraGate Road, Thiruchengode,<br>Namakkal, Tamil Nadu</p>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.5 2.1L8 9.7a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.5c.9.3 1.8.5 2.7.6a2 2 0 011.7 2z"/></svg></span>
+          <div>
+            <h4>Call / WhatsApp</h4>
+            <p>+91 8838358598<br>Tue – Sun, 10:30 AM – 8:30 PM</p>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+          <div>
+            <h4>Email</h4>
+            <p>tharangeetha@gmail.com</p>
+          </div>
+        </div>
+
+        <form class="enquiry" aria-label="Enquiry form">
+          <input type="text" placeholder="Your Name" required>
+          <input type="tel" placeholder="Phone Number" required>
+          <textarea rows="3" placeholder="Tell us about the occasion"></textarea>
+          <button type="submit">Send Enquiry</button>
+        </form>
+      </div>
+
+      <div class="contact-map reveal">
+        <div class="map-inner photo-frame">
+          <img src="c:\Users\Thendral\Downloads\ruchengode_location_vechu_oru_boutique_shop_image.jpg" alt="Tharan boutique storefront" loading="lazy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div class="map-caption">Thiruchengode, Namakkal, Tamil Nadu</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="brand-name">THARAN</span>
+  <p style="font-size:0.85rem; max-width:46ch; margin:0 auto; opacity:0.8;">Ethnic wear boutique for weddings, festivals and everyday elegance — handcrafted in Tamil Nadu.</p>
+  <div class="foot-links">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#collections">Collections</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <small>© 2026 Tharan Boutique. All rights reserved.</small>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el=>io.observe(el));
+
+  const toggle = document.querySelector('.nav-toggle');
+  const navUl = document.querySelector('nav ul');
+  toggle.addEventListener('click', ()=>{
+    const isOpen = navUl.style.display === 'flex';
+    navUl.style.display = isOpen ? 'none' : 'flex';
+    navUl.style.flexDirection = 'column';
+    navUl.style.position='absolute';
+    navUl.style.top='64px';
+    navUl.style.right='20px';
+    navUl.style.background='#FBF4E8';
+    navUl.style.border='1px solid rgba(212,175,55,0.5)';
+    navUl.style.padding='18px 26px';
+    navUl.style.gap='16px';
+  });
+
+  document.querySelector('.enquiry').addEventListener('submit', function(e){
+    e.preventDefault();
+    const btn = this.querySelector('button');
+    const original = btn.textContent;
+    btn.textContent = 'Enquiry Sent ✓';
+    this.reset();
+    setTimeout(()=>{ btn.textContent = original; }, 2500);
+  });
+</script>
+
+</body>
+</html>
